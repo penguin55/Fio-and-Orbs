@@ -16,6 +16,8 @@ public class PlayerControl : PlayerBehaviour
     void Update()
     {
         ControllerMove();
+        Fall();
+        Land();
     }
 
     private void FixedUpdate()

@@ -12,6 +12,10 @@ public class PlayerBehaviour : MonoBehaviour
     private SpriteRenderer sprite;
     private Animator anim;
 
+    private bool falling;
+    private bool onJump;
+    private bool onGround;
+
     public void Initialize()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -31,14 +35,68 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void Jump()
     {
-        anim.SetTrigger("Jump");
+        if (onGround)
+        {
+            onJump = true;
+            onGround = false;
+            anim.SetTrigger("Jump");
 
-        if (rigidbody.velocity.y > 0) rigidbody.velocity = new Vector2(rigidbody.velocity.x, 0);
-        rigidbody.AddForce(Vector2.up * status.JUMP_POWER);
+            if (rigidbody.velocity.y > 0) rigidbody.velocity = new Vector2(rigidbody.velocity.x, 0);
+            rigidbody.AddForce(Vector2.up * status.JUMP_POWER);
+        }
+    }
+
+    public void Fall()
+    {
+        if (rigidbody.velocity.y < 0)
+        {
+            if (!falling)
+            {
+                onGround = false;
+                onJump = true;
+                falling = true;
+                anim.ResetTrigger("Jump");
+                anim.SetTrigger("Fall");
+            }
+        }
+    }
+
+    public void Land()
+    {
+        if ((falling || onJump) && onGround)
+        {
+            onJump = false;
+            falling = false;
+            anim.ResetTrigger("Fall");
+            anim.SetTrigger("Land");
+        }
     }
 
     private void FlipCharacter(bool flip)
     {
         sprite.flipX = flip;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            onGround = true;
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            if (falling)
+            {
+                onGround = true;
+                falling = false;
+                onJump = true;
+                anim.ResetTrigger("Fall");
+                anim.SetTrigger("Land");
+            }
+        }
     }
 }
