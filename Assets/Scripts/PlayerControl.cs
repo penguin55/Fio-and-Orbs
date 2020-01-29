@@ -15,6 +15,7 @@ public class PlayerControl : PlayerBehaviour
     // Update is called once per frame
     void Update()
     {
+        idle = true;
         ControllerMove();
         Fall();
         Land();
@@ -31,11 +32,13 @@ public class PlayerControl : PlayerBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             direction = Vector2.left;
+            idle = false;
         }
 
         if (Input.GetKey(KeyCode.D))
         {
             direction = Vector2.right;
+            idle = false;
         }
 
         Walk(direction);
@@ -46,6 +49,7 @@ public class PlayerControl : PlayerBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
+            idle = false;
         }
     }
 }

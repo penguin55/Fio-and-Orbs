@@ -15,12 +15,14 @@ public class PlayerBehaviour : MonoBehaviour
     private bool falling;
     private bool onJump;
     private bool onGround;
+    [HideInInspector] public bool idle;
 
     public void Initialize()
     {
         rigidbody = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        idle = true;
     }
 
     public void Walk(Vector2 direction)
@@ -57,6 +59,7 @@ public class PlayerBehaviour : MonoBehaviour
                 falling = true;
                 anim.ResetTrigger("Jump");
                 anim.SetTrigger("Fall");
+                idle = false;
             }
         }
     }
@@ -98,5 +101,10 @@ public class PlayerBehaviour : MonoBehaviour
                 anim.SetTrigger("Land");
             }
         }
+    }
+
+    public bool IsPlayerIdle()
+    {
+        return idle;
     }
 }
