@@ -14,7 +14,6 @@
           <e p="PlayerBehaviour.cs" t="Include" />
           <e p="PlayerControl.cs" t="Include" />
           <e p="PlayerInfo.cs" t="Include" />
-          <e p="TW_Math.cs" t="Include" />
         </e>
         <e p="Sprites" t="Include">
           <e p="Fio" t="Include">

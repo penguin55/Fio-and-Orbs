@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TomWill;
 
 
 public class OrbBehaviour : MonoBehaviour
@@ -48,13 +47,9 @@ public class OrbBehaviour : MonoBehaviour
 
     void FollowPlayer()
     {
-        if (transform.position == OrbsPosition.transform.position)
-        {
-            following = false;
-        }
-            
         if (following)
         {
+            anim.SetBool("Idle",false);
             //transform.position = Vector2.MoveTowards(transform.position, Fio.transform.position, status.ORB_SPEED * Time.deltaTime);
             transform.position = Vector2.Lerp( transform.position,  OrbsPosition.transform.position, Time.deltaTime *  status.ORB_SPEED);
         }
@@ -64,7 +59,7 @@ public class OrbBehaviour : MonoBehaviour
     {
         if ( status.PLAYER.IsPlayerIdle() && idling)
         { 
-            
+            anim.SetBool("Idle",true);
         }
     }
 
@@ -73,7 +68,7 @@ public class OrbBehaviour : MonoBehaviour
     {
         distance = Vector2.Distance(transform.position, OrbsPosition.transform.position);
 
-        if (!idling && distance <= idleArea)
+        if ( status.PLAYER.IsPlayerIdle() && !idling && distance <= idleArea)
         {
             StartCoroutine(TimeToIdle());
         }

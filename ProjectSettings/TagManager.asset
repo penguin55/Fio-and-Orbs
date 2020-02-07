@@ -42,11 +42,17 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: ObjectBackground
+    uniqueID: 1585231191
+    locked: 0
   - name: Water
     uniqueID: 3885300159
     locked: 0
   - name: Ground
     uniqueID: 1462614707
+    locked: 0
+  - name: Object-Foreground
+    uniqueID: 2118903123
     locked: 0
   - name: Player
     uniqueID: 3757040173
