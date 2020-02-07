@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +20,7 @@ public class PlayerControl : PlayerBehaviour
         ControllerMove();
         Fall();
         Land();
+        Interacts();
     }
 
     private void FixedUpdate()
@@ -50,6 +52,21 @@ public class PlayerControl : PlayerBehaviour
         {
             Jump();
             idle = false;
+        }
+    }
+
+    void Interacts()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            try
+            {
+                GetInteractableObject().InteractsObject();
+            }
+            catch (NullReferenceException nullEx)
+            {
+                Debug.Log("Iki error");
+            }
         }
     }
 }

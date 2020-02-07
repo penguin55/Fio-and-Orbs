@@ -17,6 +17,8 @@ public class PlayerBehaviour : MonoBehaviour
     private bool onGround;
     [HideInInspector] public bool idle;
 
+    private Interactable interactableObject;
+
     public void Initialize()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -50,7 +52,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void Fall()
     {
-        if (rigidbody.velocity.y < 0)
+        if (rigidbody.velocity.y < -0.2f)
         {
             if (!falling)
             {
@@ -82,15 +84,19 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
         {
             onGround = true;
+            if (collision.gameObject.CompareTag("Platform"))
+            {
+                transform.parent = collision.transform;
+            }
         }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
         {
             if (falling)
             {
@@ -103,8 +109,26 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Platform"))
+        {
+            transform.parent = null;
+        }
+    }
+
     public bool IsPlayerIdle()
     {
         return idle;
+    }
+
+    public void Interactable(Interactable interacts)
+    {
+        interactableObject = interacts;
+    }
+
+    public Interactable GetInteractableObject()
+    {
+        return interactableObject;
     }
 }
