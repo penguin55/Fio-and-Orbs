@@ -39,7 +39,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void Jump()
     {
-        if (onGround)
+        if (onGround && !onJump)
         {
             onJump = true;
             onGround = false;
@@ -102,7 +102,7 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 onGround = true;
                 falling = false;
-                onJump = true;
+                onJump = false;
                 anim.ResetTrigger("Fall");
                 anim.SetTrigger("Land");
             }
