@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyBehaviour : MonoBehaviour
 {
     public List<Transform> patrolPoints;
+    public EnemyStatus status;
     public float timeToNextPatrol;
-    public float movementSpeed;
+
+    public Transform hPBarPosition;
+    [SerializeField] protected HealthBar healthBar;
 
     protected float currentTime;
 
@@ -21,6 +25,10 @@ public class EnemyBehaviour : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         multiplierPatrolIndex = 1;
+
+        Slider slider = Instantiate(HPBarManager.instance.healthBarPrefabs).GetComponent<Slider>();
+        slider.gameObject.transform.parent = HPBarManager.instance.parentUI.transform;
+        healthBar.Initialize("Slime", 100, slider);
     }
 
     public virtual void Move() { }
@@ -55,4 +63,12 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
+}
+
+[System.Serializable]
+public class EnemyStatus
+{
+    public string NAME;
+    public int HEALTH;
+    public float MOVEMENT_SPEED;
 }

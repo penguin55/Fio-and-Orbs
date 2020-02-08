@@ -34,7 +34,7 @@ public class SlimeBehaviour : EnemyBehaviour
 
         if (onJump && pointsMove.Count > 0)
         {
-            Vector2 temp = TWTransform.MoveTowardsWithParabola(transform.position, ref pointsMove, movementSpeed);
+            Vector2 temp = TWTransform.MoveTowardsWithParabola(transform.position, ref pointsMove, status.MOVEMENT_SPEED);
             transform.position = temp;
         }
     }
@@ -95,5 +95,30 @@ public class SlimeBehaviour : EnemyBehaviour
     public void Jump()
     {
         onJump = true;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            StartCoroutine(collision.gameObject.GetComponent<PlayerBehaviour>().Knockback(transform));
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Orbs"))
+        {
+            healthBar.StopAllCoroutines();
+            healthBar.Active();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Orbs"))
+        {
+            healthBar.StartCoroutine(healthBar.Deactive());
+        }
     }
 }

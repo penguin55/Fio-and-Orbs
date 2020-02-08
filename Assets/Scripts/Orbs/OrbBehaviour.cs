@@ -11,10 +11,15 @@ public class OrbBehaviour : MonoBehaviour
     [SerializeField] private OrbInfo status;
     [SerializeField] private GameObject OrbsPosition;
 
+    [SerializeField] private float orbsMoveSpeed;
+
     private Animator anim;
+    protected Rigidbody2D rigid;
     
     private bool following;
     private bool idling;
+
+    private bool onPlatform;
 
     private float distance;
 
@@ -24,24 +29,19 @@ public class OrbBehaviour : MonoBehaviour
     private float offsetIdleMoveArea = 0.09f;
     private float distanceIdleMovePoint;
 
-
-    // Start is called before the first frame update
-    void Start()
+    public void Initialize()
     {
-        GetComponent<SpriteRenderer>().color = status.ORB_COLOR; 
+        GetComponent<SpriteRenderer>().color = status.ORB_COLOR;
         following = true;
         anim = GetComponent<Animator>();
+        rigid = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void LoopBehaviour()
     {
         FollowPlayer();
         Idle();
-    }
 
-    private void LateUpdate()
-    {
         IdlingAreaCheck();
     }
 
@@ -66,13 +66,15 @@ public class OrbBehaviour : MonoBehaviour
 
     void IdlingAreaCheck()
     {
+        if (onPlatform) return;
+
         distance = Vector2.Distance(transform.position, OrbsPosition.transform.position);
 
         if ( status.PLAYER.IsPlayerIdle() && !idling && distance <= idleArea)
         {
             StartCoroutine(TimeToIdle());
         }
-        else if (idling && distance >= idleArea && !status.PLAYER.IsPlayerIdle())
+        else if ( (idling && distance >= idleArea) || !status.PLAYER.IsPlayerIdle())
         {
             ExitIdle();
         }
@@ -91,5 +93,32 @@ public class OrbBehaviour : MonoBehaviour
         idling = false;
         following = true;
         idleMovePoint = null;
+    }
+
+    public void SetFollowingOrbsStatus(bool status)
+    {
+        following = status;
+    }
+
+    public void AnimSetBool(bool status)
+    {
+        anim.SetBool("OrbsControl", status);
+    }
+
+    public void SetOnPlatform(bool status)
+    {
+        following = true;
+        idling = false;
+        onPlatform = status;
+    }
+
+    public GameObject GetPlayer()
+    {
+        return status.PLAYER.gameObject;
+    }
+
+    public void Move(Vector2 directionMove)
+    {
+        transform.Translate(directionMove * orbsMoveSpeed * Time.deltaTime);
     }
 }

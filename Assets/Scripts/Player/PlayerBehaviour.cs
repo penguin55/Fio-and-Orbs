@@ -8,6 +8,8 @@ using UnityEngine;
 public class PlayerBehaviour : MonoBehaviour
 {
     [SerializeField] private PlayerInfo status;
+    [SerializeField] private OrbBehaviour orbs;
+
     private Rigidbody2D rigidbody;
     private SpriteRenderer sprite;
     private Animator anim;
@@ -15,6 +17,7 @@ public class PlayerBehaviour : MonoBehaviour
     private bool falling;
     private bool onJump;
     private bool onGround;
+    protected bool knockback;
     [HideInInspector] public bool idle;
 
     private Interactable interactableObject;
@@ -82,6 +85,32 @@ public class PlayerBehaviour : MonoBehaviour
         sprite.flipX = flip;
     }
 
+    public IEnumerator Knockback(Transform enemy)
+    {
+        if (!knockback)
+        {
+            idle = false;
+            rigidbody.velocity = Vector2.zero;
+            knockback = true;
+
+            anim.SetBool("Knockback",knockback);
+
+            if (enemy.position.x > transform.position.x)
+            {
+                rigidbody.AddForce(new Vector2(-1, 1) * 3, ForceMode2D.Impulse);
+            }
+            else
+            {
+                rigidbody.AddForce(new Vector2(1, 1) * 3, ForceMode2D.Impulse);
+            }
+
+            yield return new WaitForSeconds(1);
+            knockback = false;
+            anim.SetBool("Knockback", knockback);
+        }
+        yield return 0;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
@@ -90,6 +119,7 @@ public class PlayerBehaviour : MonoBehaviour
             if (collision.gameObject.CompareTag("Platform"))
             {
                 transform.parent = collision.transform;
+                orbs.SetOnPlatform(true);
             }
         }
     }
@@ -114,6 +144,7 @@ public class PlayerBehaviour : MonoBehaviour
         if (collision.gameObject.CompareTag("Platform"))
         {
             transform.parent = null;
+            orbs.SetOnPlatform(false);
         }
     }
 

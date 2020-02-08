@@ -16,6 +16,9 @@ public class PlayerControl : PlayerBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (knockback) return;
+        if (OrbControl.OrbsControl) return;
+
         idle = true;
         ControllerMove();
         Fall();
@@ -25,6 +28,8 @@ public class PlayerControl : PlayerBehaviour
 
     private void FixedUpdate()
     {
+        if (knockback) return; 
+
         ControllerJump();
     }
 
