@@ -76,6 +76,7 @@ public class SlimeBehaviour : EnemyBehaviour
 
     public void LoopBehaviour()
     {
+        if (dead) return;
         Move();
         Fall();
         Land();
@@ -107,18 +108,22 @@ public class SlimeBehaviour : EnemyBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Orbs"))
+        if (collision.gameObject.CompareTag("Orbs") && HPBarShowed)
         {
-            healthBar.StopAllCoroutines();
+            if (dead) return;
+            HPBarShowed = false;
+            healthBar.StopCoroutine(showHPBarCoroutine);
             healthBar.Active();
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Orbs"))
+        if (collision.gameObject.CompareTag("Orbs") && !HPBarShowed)
         {
-            healthBar.StartCoroutine(healthBar.Deactive());
+            if (dead) return;
+            HPBarShowed = true;
+            showHPBarCoroutine = healthBar.StartCoroutine(healthBar.Deactive());
         }
     }
 }

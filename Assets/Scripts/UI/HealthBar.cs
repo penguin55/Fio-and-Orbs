@@ -11,7 +11,7 @@ public class HealthBar : MonoBehaviour
 
     private bool active;
 
-    public void Initialize(string name, int healthMax, Slider slider)
+    public void Initialize(string name, float healthMax, Slider slider)
     {
         bar = slider;
         bar.transform.localScale = Vector3.one;
@@ -25,6 +25,11 @@ public class HealthBar : MonoBehaviour
     public void Update()
     {
         if (active) bar.transform.position = WorldToUISpace(HPBarManager.instance.canvas, transform.position);
+    }
+
+    public void UpdateBar(float health)
+    {
+        bar.value = health;
     }
 
     public void Active()
@@ -50,6 +55,11 @@ public class HealthBar : MonoBehaviour
         yield return new WaitForSeconds(delayCompletelyFade);
         active = false;
         bar.gameObject.SetActive(active);
+    }
+
+    public void Disable()
+    {
+        bar.gameObject.SetActive(false);
     }
 
 }

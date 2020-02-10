@@ -7,4 +7,5 @@ public class OrbInfo
     public float ORB_SPEED;
     public Color ORB_COLOR;
     public PlayerBehaviour PLAYER;
+    public float DAMAGE;
 }

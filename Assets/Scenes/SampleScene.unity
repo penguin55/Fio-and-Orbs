@@ -935,6 +935,7 @@ MonoBehaviour:
     ORB_SPEED: 5
     ORB_COLOR: {r: 0, g: 0.20115566, b: 1, a: 1}
     PLAYER: {fileID: 260265624}
+    DAMAGE: 10
   OrbsPosition: {fileID: 224289015}
   orbsMoveSpeed: 5
 --- !u!4 &661366785
@@ -977,7 +978,7 @@ Rigidbody2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 661366781}
   m_BodyType: 1
-  m_Simulated: 1
+  m_Simulated: 0
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
@@ -1201,7 +1202,7 @@ MonoBehaviour:
   - {fileID: 207113314}
   status:
     NAME: 
-    HEALTH: 0
+    HEALTH: 100
     MOVEMENT_SPEED: 15
   timeToNextPatrol: 1
   hPBarPosition: {fileID: 1207695491}
@@ -1585,6 +1586,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1467437108}
   - component: {fileID: 1467437107}
+  - component: {fileID: 1467437109}
   m_Layer: 0
   m_Name: switchBlue
   m_TagString: Untagged
@@ -1655,6 +1657,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1467437109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467437106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6142c0b89909f724797d9d8f5cc025b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactsObjectWith: Orbs
+  spriteImage:
+  - {fileID: 21300000, guid: aca2235975698f041ae3fdf28a653f84, type: 3}
+  - {fileID: 21300000, guid: ac6d0f97bd8db2742b1a5d1129b7cf3d, type: 3}
 --- !u!1 &1581175271
 GameObject:
   m_ObjectHideFlags: 0
@@ -2627,6 +2645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad2dc9f2c774c47428e21fbee4806c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactsObjectWith: Player
   currentStatusLever: 0
   leverImageStatus:
   - {fileID: 21300000, guid: 1196af69cb6a08c4eaedefbc37e58038, type: 3}

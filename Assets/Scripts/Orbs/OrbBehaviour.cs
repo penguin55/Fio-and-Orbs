@@ -121,4 +121,20 @@ public class OrbBehaviour : MonoBehaviour
     {
         transform.Translate(directionMove * orbsMoveSpeed * Time.deltaTime);
     }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+        {
+            collision.gameObject.GetComponent<EnemyBehaviour>().DamageTaken(status.DAMAGE);
+        }
+    }
+
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+        {
+            collision.gameObject.GetComponent<EnemyBehaviour>().StopDamageTaken();
+        }
+    }
 }

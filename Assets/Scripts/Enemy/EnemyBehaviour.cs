@@ -20,7 +20,14 @@ public class EnemyBehaviour : MonoBehaviour
     protected Animator anim;
 
     protected bool onPatrol;
-    
+
+    protected bool takingDamage;
+    private Coroutine takingDamageCoroutine;
+    protected bool dead;
+
+    protected Coroutine showHPBarCoroutine;
+    protected bool HPBarShowed;
+
     public virtual void Initialize()
     {
         anim = GetComponent<Animator>();
@@ -28,7 +35,8 @@ public class EnemyBehaviour : MonoBehaviour
 
         Slider slider = Instantiate(HPBarManager.instance.healthBarPrefabs).GetComponent<Slider>();
         slider.gameObject.transform.parent = HPBarManager.instance.parentUI.transform;
-        healthBar.Initialize("Slime", 100, slider);
+        healthBar.Initialize("Slime", status.HEALTH, slider);
+        takingDamage = false;
     }
 
     public virtual void Move() { }
@@ -63,12 +71,63 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
+    void Dead()
+    {
+        dead = true;
+        StopDamageTaken();
+        anim.SetTrigger("Dead");
+    }
+
+    public void AfterAnimationDead()
+    {
+        healthBar.Disable();
+        transform.parent.gameObject.SetActive(false);
+    }
+
+    public void DamageTaken(float damage)
+    {
+        if (status.HEALTH > 0 && !takingDamage)
+        {
+            takingDamage = true;
+            takingDamageCoroutine = StartCoroutine(TakingDamage(damage));
+        } 
+    }
+
+    public void StopDamageTaken()
+    {
+        takingDamage = false;
+        if (takingDamageCoroutine != null) StopCoroutine(takingDamageCoroutine);
+        takingDamageCoroutine = null;
+    }
+
+    IEnumerator TakingDamage(float damage)
+    {
+        while (true)
+        {
+            UpdateHealth(Time.deltaTime * damage);
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    void UpdateHealth(float health)
+    {
+        status.HEALTH -= health;
+
+        if (status.HEALTH < 0)
+        {
+            status.HEALTH = 0;
+            Dead();
+        }
+
+        healthBar.UpdateBar(status.HEALTH);
+    }
+
 }
 
 [System.Serializable]
 public class EnemyStatus
 {
     public string NAME;
-    public int HEALTH;
+    public float HEALTH;
     public float MOVEMENT_SPEED;
 }
