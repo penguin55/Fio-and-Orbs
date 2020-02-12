@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bridge : MonoBehaviour, Generator
+public class StepMover : MonoBehaviour
 {
+    [Header("Only Start pos and Finish Pos")]
     public Vector2[] pointMove;
     [SerializeField] private int currentIndex;
+    [SerializeField] private int activePos;
     [SerializeField] private float speedMovePlatform;
+
+    [SerializeField] private GameObject objectWantToActive;
 
     private bool active;
 
@@ -15,18 +19,23 @@ public class Bridge : MonoBehaviour, Generator
     public void ActiveInteract()
     {
         active = true;
+        objectWantToActive.GetComponent<Switch>()?.Activate(false);
+        ChangeIndex();
     }
 
     public void DeactiveInteract()
     {
-        active = false;
+        ActiveInteract();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        active = false;
-        multiplier = multiplier == (pointMove.Length - 1) ? -1 : 1;
+        multiplier = currentIndex == (pointMove.Length - 1) ? -1 : 1;
+        active = currentIndex == pointMove.Length - 1;
+        objectWantToActive.GetComponent<Switch>()?.Activate(false);
+
+        CheckingPlatform();
     }
 
     // Update is called once per frame
@@ -43,7 +52,14 @@ public class Bridge : MonoBehaviour, Generator
 
     void CheckingPlatform()
     {
-        if (active && (Vector2)transform.position == pointMove[currentIndex]) ChangeIndex();
+        if (active && (Vector2)transform.position == pointMove[currentIndex])
+        {
+            active = false;
+            if (activePos == currentIndex)
+            {
+                objectWantToActive.GetComponent<Switch>()?.Activate(true);
+            }
+        }
     }
 
     void ChangeIndex()

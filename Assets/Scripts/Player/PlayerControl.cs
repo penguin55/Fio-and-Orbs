@@ -64,14 +64,7 @@ public class PlayerControl : PlayerBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            try
-            {
-                GetInteractableObject().InteractsObject();
-            }
-            catch (NullReferenceException nullEx)
-            {
-                Debug.Log("Iki error");
-            }
+            GetInteractableObject()?.InteractsObject();       
         }
     }
 }

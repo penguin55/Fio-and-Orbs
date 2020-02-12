@@ -29,6 +29,8 @@ public class OrbBehaviour : MonoBehaviour
     private float offsetIdleMoveArea = 0.09f;
     private float distanceIdleMovePoint;
 
+    private Interactable interactableObject;
+
     public void Initialize()
     {
         GetComponent<SpriteRenderer>().color = status.ORB_COLOR;
@@ -47,7 +49,7 @@ public class OrbBehaviour : MonoBehaviour
 
     void FollowPlayer()
     {
-        if (following)
+        if (following || status.PLAYER.IsPlayerIdle() || idling || onPlatform)
         {
             anim.SetBool("Idle",false);
             //transform.position = Vector2.MoveTowards(transform.position, Fio.transform.position, status.ORB_SPEED * Time.deltaTime);
@@ -57,7 +59,7 @@ public class OrbBehaviour : MonoBehaviour
 
     void Idle()
     {
-        if ( status.PLAYER.IsPlayerIdle() && idling)
+        if ( status.PLAYER.IsPlayerIdle() && idling && !onPlatform)
         { 
             anim.SetBool("Idle",true);
         }
@@ -107,9 +109,20 @@ public class OrbBehaviour : MonoBehaviour
 
     public void SetOnPlatform(bool status)
     {
-        following = true;
-        idling = false;
+        following = status;
+        idling = !status;
         onPlatform = status;
+        StopCoroutine(TimeToIdle());
+    }
+
+    public void Interactable(Interactable interacts)
+    {
+        interactableObject = interacts;
+    }
+
+    public Interactable GetInteractableObject()
+    {
+        return interactableObject;
     }
 
     public GameObject GetPlayer()

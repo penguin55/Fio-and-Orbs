@@ -28,6 +28,8 @@ public class EnemyBehaviour : MonoBehaviour
     protected Coroutine showHPBarCoroutine;
     protected bool HPBarShowed;
 
+    protected GameObject drops;
+
     public virtual void Initialize()
     {
         anim = GetComponent<Animator>();
@@ -37,6 +39,11 @@ public class EnemyBehaviour : MonoBehaviour
         slider.gameObject.transform.parent = HPBarManager.instance.parentUI.transform;
         healthBar.Initialize("Slime", status.HEALTH, slider);
         takingDamage = false;
+    }
+
+    public void SetDrop(GameObject drops)
+    {
+        this.drops = drops;
     }
 
     public virtual void Move() { }
@@ -82,6 +89,15 @@ public class EnemyBehaviour : MonoBehaviour
     {
         healthBar.Disable();
         transform.parent.gameObject.SetActive(false);
+        DropItem();
+    }
+
+    void DropItem()
+    {
+        if (drops)
+        {
+            Instantiate(drops, hPBarPosition.position, Quaternion.identity);
+        }
     }
 
     public void DamageTaken(float damage)

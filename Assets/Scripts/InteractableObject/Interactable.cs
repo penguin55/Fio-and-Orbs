@@ -12,7 +12,7 @@ public class Interactable : MonoBehaviour
         if (collision.CompareTag(interactsObjectWith))
         {
             if (interactsObjectWith.Equals("Player")) collision.GetComponent<PlayerBehaviour>().Interactable(this);
-            if (interactsObjectWith.Equals("Orbs")) ;
+            if (interactsObjectWith.Equals("Orbs")) collision.GetComponent<OrbBehaviour>().Interactable(this);    
         }
     }
 
@@ -21,7 +21,7 @@ public class Interactable : MonoBehaviour
         if (collision.CompareTag(interactsObjectWith))
         {
             if (interactsObjectWith.Equals("Player")) collision.GetComponent<PlayerBehaviour>().Interactable(null);
-            if (interactsObjectWith.Equals("Orbs")) ;
+            if (interactsObjectWith.Equals("Orbs")) collision.GetComponent<OrbBehaviour>().Interactable(null);
         }
     }
 }

@@ -28,6 +28,7 @@ public class PlayerBehaviour : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         idle = true;
+        UIManager.instance.SetHealth(status.LIVES);
     }
 
     public void Walk(Vector2 direction)
@@ -46,6 +47,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             onJump = true;
             onGround = false;
+            idle = false;
             anim.SetTrigger("Jump");
 
             if (rigidbody.velocity.y > 0) rigidbody.velocity = new Vector2(rigidbody.velocity.x, 0);
@@ -104,11 +106,24 @@ public class PlayerBehaviour : MonoBehaviour
                 rigidbody.AddForce(new Vector2(1, 1) * 3, ForceMode2D.Impulse);
             }
 
+            TakeDamage();
+
             yield return new WaitForSeconds(1);
             knockback = false;
             anim.SetBool("Knockback", knockback);
         }
         yield return 0;
+    }
+
+    private void TakeDamage()
+    {
+        if (status.LIVES == 0)
+        {
+            return;
+        }
+
+        status.LIVES--;
+        UIManager.instance.SetHealth(status.LIVES);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -118,8 +133,11 @@ public class PlayerBehaviour : MonoBehaviour
             onGround = true;
             if (collision.gameObject.CompareTag("Platform"))
             {
-                transform.parent = collision.transform;
-                orbs.SetOnPlatform(true);
+                if (transform.position.y > collision.transform.position.y)
+                {
+                    transform.parent = collision.transform;
+                    orbs.SetOnPlatform(true);
+                }
             }
         }
     }
@@ -143,8 +161,11 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Platform"))
         {
-            transform.parent = null;
-            orbs.SetOnPlatform(false);
+            if (transform.parent != null)
+            {
+                transform.parent = null;
+                orbs.SetOnPlatform(false);
+            }
         }
     }
 

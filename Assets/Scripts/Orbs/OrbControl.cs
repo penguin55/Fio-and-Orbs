@@ -20,7 +20,8 @@ public class OrbControl : OrbBehaviour
 
         if (OrbsControl)
         {
-            Movement();   
+            Movement();
+            Interacts();
         }
         else
         {
@@ -66,11 +67,21 @@ public class OrbControl : OrbBehaviour
             {
                 rigid.simulated = false;
                 SetFollowingOrbsStatus(true);
+                Cinemachine2D.cinemachine.ChangeTarget(GetPlayer());
             } else
             {
                 rigid.simulated = true;
                 SetFollowingOrbsStatus(false);
+                Cinemachine2D.cinemachine.ChangeTarget(transform.gameObject);
             }
+        }
+    }
+
+    void Interacts()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            GetInteractableObject()?.InteractsObject();
         }
     }
 }

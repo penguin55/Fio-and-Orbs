@@ -59,33 +59,13 @@ public class Lever : Interactable
 
     void OnActiveGenerator(int index)
     {
-        try
-        {
-            (leverGenerator[index].GetComponent<Bridge>()).ActiveInteract();
-        } 
-        catch (UnassignedReferenceException ex)
-        {
-            
-        }
-        catch (NullReferenceException nullEx)
-        {
-            
-        }
+        (leverGenerator[index].GetComponent<Bridge>())?.ActiveInteract();
+        (leverGenerator[index].GetComponent<StepMover>())?.ActiveInteract();
     }
 
     void OnDeactiveGenerator(int index)
     {
-        try
-        {
-            (leverGenerator[index].GetComponent<Bridge>()).DeactiveInteract();
-        }
-        catch (UnassignedReferenceException ex)
-        {
-
-        }
-        catch (NullReferenceException nullEx)
-        {
-
-        }
+        (leverGenerator[index].GetComponent<Bridge>())?.DeactiveInteract();
+        (leverGenerator[index].GetComponent<StepMover>())?.DeactiveInteract();
     }
 }
