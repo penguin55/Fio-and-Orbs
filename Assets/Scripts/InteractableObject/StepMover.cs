@@ -58,6 +58,7 @@ public class StepMover : MonoBehaviour
             if (activePos == currentIndex)
             {
                 objectWantToActive.GetComponent<Switch>()?.Activate(true);
+                objectWantToActive.GetComponent<Lock>()?.Activate();
             }
         }
     }

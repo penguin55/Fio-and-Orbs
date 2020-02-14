@@ -9,14 +9,18 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private List<GameVariables.Orbs> diamondOrbs;
 
     [SerializeField] private bool[] orbsStatus;
+    public bool hasKey;
 
     [SerializeField] private EnemyBehaviour[] enemy;
     [SerializeField] private GameObject dropKey;
+
+    [SerializeField] private StepMover secretPlace;
 
     private void Start()
     {
         instance = this;
         orbsStatus = new bool[diamondOrbs.Count];
+        hasKey = false;
         GenerateRandomKeyDrop();
     }
 
@@ -36,6 +40,7 @@ public class LevelManager : MonoBehaviour
         if (DiamondsCheck())
         {
             Debug.Log("Horray");
+            PoweredUpSecretPlace();
         }
     }
 
@@ -47,5 +52,10 @@ public class LevelManager : MonoBehaviour
         }
 
         return true;
+    }
+
+    private void PoweredUpSecretPlace()
+    {
+        secretPlace.ActiveInteract();
     }
 }

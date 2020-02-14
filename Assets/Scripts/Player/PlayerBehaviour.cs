@@ -18,6 +18,7 @@ public class PlayerBehaviour : MonoBehaviour
     private bool onJump;
     private bool onGround;
     protected bool knockback;
+    private bool die;
     [HideInInspector] public bool idle;
 
     private Interactable interactableObject;
@@ -117,13 +118,23 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void TakeDamage()
     {
-        if (status.LIVES == 0)
-        {
-            return;
-        }
-
+        if (die) return;
         status.LIVES--;
         UIManager.instance.SetHealth(status.LIVES);
+        
+        if (status.LIVES == 0 && !die)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        GameVariables.FreezeGame = true;
+        UIManager.instance.SendMessageGameOver("Lose", true);
+        die = true;
+        anim.SetBool("Run",false);
+        anim.SetTrigger("Die");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

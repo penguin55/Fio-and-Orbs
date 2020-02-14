@@ -16,6 +16,7 @@ public class OrbControl : OrbBehaviour
 
     void Update()
     {
+        if (GameVariables.FreezeGame) return;
         ChangeToOrbsControl();
 
         if (OrbsControl)

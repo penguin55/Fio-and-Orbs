@@ -16,6 +16,11 @@ public class UIManager : MonoBehaviour
     public Sprite activeHP;
     public Sprite deactiveHP;
 
+    [Header("Game Over Panel")] 
+    public GameObject gameOverPanel;
+    public GameObject losePanel;
+    public GameObject winPanel;
+
     private void Start()
     {
         instance = this;
@@ -47,5 +52,30 @@ public class UIManager : MonoBehaviour
             if (i < health) healthImage[i].sprite = activeHP;
             else healthImage[i].sprite = deactiveHP;
         }
+    }
+
+    public void SendMessageGameOver(string command, bool flag)
+    {
+        switch (command.ToLower())
+        {
+            case "lose" :
+                Lose(flag);
+                break;
+            case "win" :
+                Win(flag);
+                break;
+        }
+    }
+
+    private void Lose(bool status)
+    {
+        gameOverPanel.SetActive(status);
+        losePanel.SetActive(status);
+    }
+    
+    private void Win(bool status)
+    {
+        gameOverPanel.SetActive(status);
+        winPanel.SetActive(status);
     }
 }
