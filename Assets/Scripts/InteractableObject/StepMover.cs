@@ -20,6 +20,7 @@ public class StepMover : MonoBehaviour
     {
         active = true;
         objectWantToActive.GetComponent<Switch>()?.Activate(false);
+        objectWantToActive.GetComponent<Lever>()?.Activate(false);
         ChangeIndex();
     }
 
@@ -58,6 +59,7 @@ public class StepMover : MonoBehaviour
             if (activePos == currentIndex)
             {
                 objectWantToActive.GetComponent<Switch>()?.Activate(true);
+                objectWantToActive.GetComponent<Lever>()?.Activate(true);
                 objectWantToActive.GetComponent<Lock>()?.Activate();
             }
         }

@@ -8,6 +8,7 @@ TagManager:
   - Platform
   - Enemy
   - Orbs
+  - Water
   layers:
   - Default
   - TransparentFX
@@ -20,8 +21,8 @@ TagManager:
   - Ground
   - Orbs
   - InteractableOrbs
-  - 
-  - 
+  - Player
+  - Enemy
   - 
   - 
   - 

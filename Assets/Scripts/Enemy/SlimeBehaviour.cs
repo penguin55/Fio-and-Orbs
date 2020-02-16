@@ -7,7 +7,7 @@ public class SlimeBehaviour : EnemyBehaviour
 {
     [SerializeField] private float maxHigh;
 
-    private List<Vector2> pointsMove;
+    private List<Vector2> pointsMove = new List<Vector2>();
 
     private bool prepareJump;
     private bool onJump;
@@ -17,7 +17,6 @@ public class SlimeBehaviour : EnemyBehaviour
     public override void Initialize()
     {
         base.Initialize();
-        pointsMove = new List<Vector2>();
         onPatrol = false;
         currentTime = 0;
         prepareJump = false;

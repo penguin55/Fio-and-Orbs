@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -127,11 +128,24 @@ public class PlayerBehaviour : MonoBehaviour
             Die();
         }
     }
+    
+    private void TakeDamage(int damage)
+    {
+        if (die) return;
+        status.LIVES -= damage;
+        UIManager.instance.SetHealth(status.LIVES);
+        
+        if (status.LIVES == 0 && !die)
+        {
+            Die();
+        }
+    }
 
     private void Die()
     {
         GameVariables.FreezeGame = true;
         UIManager.instance.SendMessageGameOver("Lose", true);
+        GetComponent<Collider2D>().enabled = false;
         die = true;
         anim.SetBool("Run",false);
         anim.SetTrigger("Die");
@@ -177,6 +191,14 @@ public class PlayerBehaviour : MonoBehaviour
                 transform.parent = null;
                 orbs.SetOnPlatform(false);
             }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Water"))
+        {
+            TakeDamage(4);
         }
     }
 

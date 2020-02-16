@@ -59,13 +59,24 @@ public class Lever : Interactable
 
     void OnActiveGenerator(int index)
     {
-        (leverGenerator[index].GetComponent<Bridge>())?.ActiveInteract();
-        (leverGenerator[index].GetComponent<StepMover>())?.ActiveInteract();
+        if (leverGenerator[index])
+        {
+            (leverGenerator[index].GetComponent<Bridge>())?.ActiveInteract();
+            (leverGenerator[index].GetComponent<StepMover>())?.ActiveInteract();
+        }
     }
 
     void OnDeactiveGenerator(int index)
     {
-        (leverGenerator[index].GetComponent<Bridge>())?.DeactiveInteract();
-        (leverGenerator[index].GetComponent<StepMover>())?.DeactiveInteract();
+        if (leverGenerator[index])
+        {
+            (leverGenerator[index].GetComponent<Bridge>())?.DeactiveInteract();
+            (leverGenerator[index].GetComponent<StepMover>())?.DeactiveInteract();
+        }
+    }
+    
+    public void Activate(bool flag)
+    {
+        GetComponent<Collider2D>().enabled = flag;
     }
 }
