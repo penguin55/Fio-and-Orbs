@@ -8,6 +8,7 @@ namespace TWLib
         private static int numpointsCurve = 20;
         public static int NumpointsCurve { get => numpointsCurve; set => numpointsCurve = value; }
 
+        // To get quadratic bezier curve for movement of slime.
         public static void QuadraticBezierCurve(ref List<Vector2> points, Vector2 current, Vector2 destination, Vector2 control)
         {
             float point = 0;

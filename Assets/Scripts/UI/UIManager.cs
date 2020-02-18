@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -26,6 +27,7 @@ public class UIManager : MonoBehaviour
         instance = this;
     }
 
+    // update diamond orbs
     public void SetDiamondOrbs(GameVariables.Orbs orbsType)
     {
         switch (orbsType)
@@ -45,6 +47,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    // update health player
     public void SetHealth(int health)
     {
         for (int i = 0; i < healthImage.Count; i++)
@@ -54,6 +57,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    // To send a message to UI Manager from another script, if the game is met a condition of win or lose
     public void SendMessageGameOver(string command, bool flag)
     {
         switch (command.ToLower())
@@ -67,15 +71,28 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    // to enable lose's panel when the win condition met
     private void Lose(bool status)
     {
         gameOverPanel.SetActive(status);
         losePanel.SetActive(status);
     }
     
+    // to enable win's panel when the win condition met
     private void Win(bool status)
     {
         gameOverPanel.SetActive(status);
         winPanel.SetActive(status);
+    }
+
+    // playing the clicked sfx
+    public void Clicked()
+    {
+        AudioManager.instance.PlayOneTime("button-click");
+    }
+
+    public void ChangeScene(string nameScene)
+    {
+        SceneManager.LoadScene(nameScene);
     }
 }

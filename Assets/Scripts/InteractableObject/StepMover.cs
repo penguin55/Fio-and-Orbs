@@ -16,6 +16,7 @@ public class StepMover : MonoBehaviour
 
     private int multiplier;
 
+    // To activate the step mover that will be activate the movement of the switch button or lever to the position that we specify
     public void ActiveInteract()
     {
         active = true;
@@ -24,6 +25,7 @@ public class StepMover : MonoBehaviour
         ChangeIndex();
     }
 
+    // To toggle activate the step mover that will be activate movement the switch button or lever to the position that we specify
     public void DeactiveInteract()
     {
         ActiveInteract();
@@ -46,11 +48,16 @@ public class StepMover : MonoBehaviour
         CheckingPlatform();
     }
 
+
+    // To move this object to the specified position according current index.
     void MovementPlatform()
     {
         if (active) transform.position = Vector2.MoveTowards(transform.position, pointMove[currentIndex], Time.deltaTime * speedMovePlatform);
     }
 
+    // To check if the object was arrive or not, when the object is arrive and the object is on position that we specify the active condition
+    // then the object will activate the generator from button switch, lever or lock that assigned to the objectWantToActive variable
+    // Active condition is a position of object that we specify from the inspector to activate the object we assigns to objectWantToActive variable
     void CheckingPlatform()
     {
         if (active && (Vector2)transform.position == pointMove[currentIndex])
@@ -65,6 +72,8 @@ public class StepMover : MonoBehaviour
         }
     }
 
+    // To change the index of movement position index
+    // Change index mechanicsm is 0 -> 1 -> ... -> n -> ... -> 1 -> 0 -> ...
     void ChangeIndex()
     {
         currentIndex += multiplier;

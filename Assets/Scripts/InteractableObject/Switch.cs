@@ -21,30 +21,36 @@ public class Switch : Interactable
         ToggleSwitch();
     }
 
+    // Activate the button switch, so the orbs can interact with this object
     public void Activate(bool status)
     {
         canInteract = status;
         GetComponent<Collider2D>().enabled = canInteract;
     }
 
+    // To interacts this object
     public override void InteractsObject()
     {
-        ReleaseOrbs();
+        if (!activeSwitch) ReleaseOrbs();
     }
 
+    // release an orbs from the switch, released orbs will be fill the diamond orbs according to its color.
     private void ReleaseOrbs()
     {
+        AudioManager.instance.PlayOneTime("switch");
         LevelManager.instance.Release(orbsType);
         activeSwitch = true;
         ToggleSwitch();
         UIManager.instance.SetDiamondOrbs(orbsType);
     }
 
+    //Just toggle the image sprite from un-pressed to pressed and vice versa.
     void ToggleSwitch()
     {
         spriteRenderer.sprite = spriteImage[(activeSwitch ? 1 : 0)];
     }
 
+    // check the switch, is the switch can be interact or not
     public bool CanInteract()
     {
         return canInteract;

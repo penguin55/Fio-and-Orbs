@@ -50,6 +50,7 @@ public class SlimeBehaviour : EnemyBehaviour
     {
         if (pointsMove.Count == 0 && onPatrol)
         {
+            AudioManager.instance.PlayOneTime("slime-jump");
             anim.SetTrigger("Land");
             onJump = false;
             onPatrol = false;
@@ -73,6 +74,8 @@ public class SlimeBehaviour : EnemyBehaviour
         }
     }
 
+    // Just want to make solid behaviour, so I make the loopable method behaviour in the sama method named loop Behavior.
+    // This method will be called on Update method
     public void LoopBehaviour()
     {
         if (dead) return;

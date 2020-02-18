@@ -12,11 +12,13 @@ public class Bridge : MonoBehaviour, Generator
 
     private int multiplier;
 
+    // To active the effect after the payer interact the generator such as active the lever
     public void ActiveInteract()
     {
         active = true;
     }
 
+    // To deactive the effect after the payer interact the generator such as deactive the lever
     public void DeactiveInteract()
     {
         active = false;
@@ -35,16 +37,22 @@ public class Bridge : MonoBehaviour, Generator
         CheckingPlatform();
     }
 
+    // Make this object move when this behaviour has true value on active variable. Active variable indicate that the level has been interact
+    // and activate this object to move
     void MovementPlatform()
     {
         if (active) transform.position = Vector2.MoveTowards(transform.position, pointMove[currentIndex], Time.deltaTime * speedMovePlatform);
     }
 
+    // To checks if the object has reached the destination pads of movement. Because, the movement is using MoveTowards, so position will get exactly in precision
+    // value as specified to move into.
     void CheckingPlatform()
     {
         if (active && (Vector2)transform.position == pointMove[currentIndex]) ChangeIndex();
     }
 
+    // To change the index when the object was arrive, so the object can move from current point to next point. 
+    // Change index system ; 0 -> 1 -> ... -> n -> ... -> 1 -> 0 -> ...
     void ChangeIndex()
     {
         currentIndex += multiplier;

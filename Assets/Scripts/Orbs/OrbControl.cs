@@ -57,6 +57,7 @@ public class OrbControl : OrbBehaviour
         Move(directionMove);
     }
 
+    // Change from character control to orbs control. Player just can control 1 object, not both of them
     void ChangeToOrbsControl()
     {
         if (Input.GetKeyDown(KeyCode.O))

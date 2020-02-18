@@ -207,6 +207,8 @@ public class PlayerBehaviour : MonoBehaviour
         return idle;
     }
 
+    // to store object that can we interacts. This method will be called and store interactable object when the player is inside collider of the interactabe object
+    // such as lever and lock
     public void Interactable(Interactable interacts)
     {
         interactableObject = interacts;

@@ -5,6 +5,7 @@ public class DiamondOrbs : ScriptableObject
 {
     public Sprite[] diamondOrbsSprite;
 
+    // Get the sprite of diamond orbs UI, flag true is diamond orbs have obtained and flag false is otherwise 
     public Sprite GetSprite(GameVariables.Orbs orbsType, bool flag)
     {
         switch (orbsType)

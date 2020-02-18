@@ -8,5 +8,6 @@ public static class GameVariables
 
     public enum Items {KEY,COIN};
 
+    // To pause the interact of user and gameplay. 
     public static bool FreezeGame;
 }

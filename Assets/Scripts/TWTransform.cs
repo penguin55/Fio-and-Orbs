@@ -13,6 +13,7 @@ namespace TWLib
             TWMath.QuadraticBezierCurve(ref points, current, destination, controlPoints);
         }
 
+        // Make a movement like parabola with bezier curve
         public static Vector2 MoveTowardsWithParabola(Vector2 current, ref List<Vector2> points, float speed)
         {
             if (current == points[0]) points.RemoveAt(0);
@@ -34,6 +35,7 @@ namespace TWLib
             }
         }
 
+        // Get the control points from 2 position we specify. The control point is generated automaticaly accordint to 2 position (start position and end position) and max height
         private static Vector2 GetControlPoints(Vector2 current, Vector2 destination, float maxHigh)
         {
             float temporaryDistance = (destination.x - current.x) / 2f;

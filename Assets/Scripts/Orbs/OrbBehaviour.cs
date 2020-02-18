@@ -39,6 +39,7 @@ public class OrbBehaviour : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
     }
 
+    // just want to make the method more solid
     public void LoopBehaviour()
     {
         FollowPlayer();
@@ -47,6 +48,7 @@ public class OrbBehaviour : MonoBehaviour
         IdlingAreaCheck();
     }
 
+    // Make the orbs can following the player
     void FollowPlayer()
     {
         if (following || status.PLAYER.IsPlayerIdle() || idling || onPlatform)
@@ -65,7 +67,7 @@ public class OrbBehaviour : MonoBehaviour
         }
     }
 
-
+    // To check if the orbs in idle area that were we specify and player is in idle condition. If all condition are met  then orbs will animate idle animation
     void IdlingAreaCheck()
     {
         if (onPlatform) return;
@@ -82,6 +84,7 @@ public class OrbBehaviour : MonoBehaviour
         }
     }
 
+    // Delay from following condition to idle condition
     IEnumerator TimeToIdle()
     {
         yield return new WaitForSeconds(timeToIdle);
@@ -89,6 +92,7 @@ public class OrbBehaviour : MonoBehaviour
         following = false;
     }
 
+    // Exit idle animation
     public void ExitIdle()
     {
         StopCoroutine(TimeToIdle());
@@ -97,6 +101,7 @@ public class OrbBehaviour : MonoBehaviour
         idleMovePoint = null;
     }
 
+    // to set the following condition
     public void SetFollowingOrbsStatus(bool status)
     {
         following = status;
@@ -107,6 +112,7 @@ public class OrbBehaviour : MonoBehaviour
         anim.SetBool("OrbsControl", status);
     }
 
+    // This method will execute when the player is on the moving platform, so the orbs will be have same parent with player object.
     public void SetOnPlatform(bool status)
     {
         following = status;
@@ -115,11 +121,13 @@ public class OrbBehaviour : MonoBehaviour
         StopCoroutine(TimeToIdle());
     }
 
+    // To set objects will be interact with orbs when the orbs is inside collider of the interactable object such as switch button.
     public void Interactable(Interactable interacts)
     {
         interactableObject = interacts;
     }
 
+    // To get what object was active to interact with orbs
     public Interactable GetInteractableObject()
     {
         return interactableObject;

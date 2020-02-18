@@ -31,6 +31,7 @@ public class Lever : Interactable
 
     public override void InteractsObject()
     {
+        AudioManager.instance.PlayOneTime("lever");
         OnDeactiveGenerator(statusLever);
         ChangeStatusLever();
         OnActiveGenerator(statusLever);
